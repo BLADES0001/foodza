@@ -34,7 +34,7 @@ function displayFoods(items) {
         </div>
 
         <div>
-          ₹${food.price}
+          ${food.price ? "₹" + food.price : "APS"}
           <button onclick="addToCart(${food.id})">+</button>
         </div>
       </div>
@@ -91,13 +91,15 @@ function displayCart() {
   let total = 0;
 
   cart.forEach(item => {
-    total += item.price * item.quantity;
+    if(item.price){
+  total += item.price * item.quantity;
+}
 
     cartDiv.innerHTML += `
       <div>
         ${item.name} (x${item.quantity})<br>
         <small>${item.custom || ""}</small><br>
-        ₹${item.price * item.quantity}
+        ${item.price ? "₹" + (item.price * item.quantity) : "APS"}
         <button onclick="removeFromCart(${item.id})">-</button>
       </div>
     `;

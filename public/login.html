@@ -46,24 +46,32 @@
 
 <div class="box">
   <h1>Foodza</h1>
+<input
+  type="text"
+  id="name"
+  placeholder="Enter Your Name"
+>
 
-  <input
-    type="tel"
-    id="mobile"
-    placeholder="Enter Mobile Number"
-  >
+<input
+  type="tel"
+  id="mobile"
+  placeholder="Enter Mobile Number"
+>
 
-  <button onclick="login()">
-    Continue
-  </button>
+<button onclick="login()">
+  Continue
+</button>
 </div>
 
 <script>
 
 function login(){
 
+  const name =
+  document.getElementById("name").value;
+
   const mobile =
-    document.getElementById("mobile").value;
+  document.getElementById("mobile").value;
 
   if(mobile.length < 10){
     alert("Enter valid mobile number");
@@ -71,6 +79,7 @@ function login(){
   }
 
   localStorage.setItem("customerMobile", mobile);
+  localStorage.setItem("customerName", name);
 
   window.location.href = "/";
 }

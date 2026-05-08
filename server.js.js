@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
 });
 
 // ================= MENU =================
+
 let menu = [];
 
 if (fs.existsSync("menu.json")) {
@@ -32,52 +33,71 @@ app.get("/menu", (req, res) => {
   res.json(menu);
 });
 
-// add item
+// delete item
 app.post("/delete-item/:id", (req, res) => {
+
   const id = Number(req.params.id);
 
   menu = menu.filter(item => item.id !== id);
 
-
   fs.writeFileSync(
-  "menu.json",
-  JSON.stringify(menu, null, 2)
-);
+    "menu.json",
+    JSON.stringify(menu, null, 2)
+  );
 
   res.send("Deleted");
+
 });
+
+// add item
 app.post("/add-item", (req, res) => {
+
   const newItem = {
     id: Date.now(),
     name: req.body.name,
     price: Number(req.body.price)
   };
+
   menu.push(newItem);
 
   fs.writeFileSync(
-  "menu.json",
-  JSON.stringify(menu, null, 2)
-);
-  res.send("Item added");
-});
+    "menu.json",
+    JSON.stringify(menu, null, 2)
+  );
 
+  res.send("Item added");
+
+});
 
 // ================= ORDERS =================
 
 let orders = [];
+let completedOrders = [];
 
 // receive order
 app.post("/order", (req, res) => {
+
   orders.push(req.body);
+
   console.log("New Order:", req.body);
+
   res.send("Order received");
+
 });
 
 // mark order done
 app.post("/done/:id", (req, res) => {
-  const id = req.params.id;
-  orders.splice(id, 1);
-  res.send("Removed");
+
+  const index = req.params.id;
+
+  const completed = orders[index];
+
+  completedOrders.push(completed);
+
+  orders.splice(index, 1);
+
+  res.send("Done");
+
 });
 
 // ================= ADMIN PANEL =================
@@ -107,6 +127,7 @@ app.get("/admin", (req, res) => {
       let foods = [];
 
       function loadMenu() {
+
         fetch('/menu')
           .then(res => res.json())
           .then(data => {
@@ -115,13 +136,21 @@ app.get("/admin", (req, res) => {
             showFoods(data);
 
           });
+
       }
 
       function showFoods(items) {
 
         document.getElementById('menu').innerHTML =
+
           items.map(item => \`
-            <div style="margin-bottom:10px; border:1px solid black; padding:10px;">
+
+            <div style="
+              margin-bottom:10px;
+              border:1px solid black;
+              padding:10px;
+              border-radius:10px;
+            ">
 
               <b>\${item.name}</b><br>
               ₹\${item.price}<br>
@@ -132,6 +161,7 @@ app.get("/admin", (req, res) => {
               </button>
 
             </div>
+
           \`).join("");
 
       }
@@ -153,7 +183,12 @@ app.get("/admin", (req, res) => {
 
         })
         .then(() => {
+
+          document.getElementById('name').value = "";
+          document.getElementById('price').value = "";
+
           loadMenu();
+
         });
 
       }
@@ -194,54 +229,201 @@ app.get("/admin", (req, res) => {
 // ================= ORDERS PAGE =================
 
 app.get("/orders", (req, res) => {
-  let html = "<h1>📦 Orders</h1>";
 
-  orders.forEach((order, index) => {
-    let total = 0;
+let html = `
+<html>
 
-    let itemsHTML = order.items.map(item => {
-      total += item.price * item.quantity;
+<head>
 
-      return `
-        <div>
-          ${item.name} x${item.quantity}<br>
-          <small>${item.custom || ""}</small><br>
-          ₹${item.price * item.quantity}
-        </div>
-      `;
-    }).join("<br>");
+<title>Orders</title>
 
-    html += `
-      <div style="border:1px solid black; padding:10px; margin:10px;">
-        <b>Table:</b> ${order.table}<br>
+<style>
+
+body{
+  font-family:Arial;
+  background:#f2f2f2;
+  margin:0;
+  padding:20px;
+}
+
+.container{
+  display:flex;
+  gap:20px;
+}
+
+.column{
+  flex:1;
+}
+
+h1{
+  text-align:center;
+}
+
+.order{
+  background:white;
+  padding:15px;
+  margin-bottom:15px;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.done{
+  background:green;
+  color:white;
+  border:none;
+  padding:10px 15px;
+  border-radius:5px;
+  cursor:pointer;
+}
+
+.completed{
+  border-left:8px solid green;
+}
+
+.tick{
+  color:green;
+  font-size:25px;
+  font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🍔 Foodza Orders</h1>
+
+<div class="container">
+
+<div class="column">
+
+<h2>🟠 Current Orders</h2>
+`;
+
+orders.forEach((order, index) => {
+
+let total = 0;
+
+let itemsHTML = order.items.map(item => {
+
+total += item.price * item.quantity;
+
+return `
+<div>
+${item.name} x${item.quantity}<br>
+<small>${item.custom || ""}</small><br>
+₹${item.price * item.quantity}
+</div><br>
+`;
+
+}).join("");
+
+html += `
+
+<div class="order">
+
+<b>Name:</b> ${order.name || "No Name"}<br>
+<b>Mobile:</b> ${order.mobile || "No Mobile"}<br>
+<b>Table:</b> ${order.table}<br>
 <b>Time:</b> ${order.time}<br><br>
-        ${itemsHTML}
-        <h3>Total: ₹${total}</h3>
-        <button onclick="done(${index})">Done</button>
-      </div>
-    `;
-  });
 
-  html += `
-    <script>
-      function done(id) {
-        fetch('/done/' + id, { method: 'POST' })
-          .then(() => location.reload());
-      }
+${itemsHTML}
 
-      // 🔄 auto refresh orders every 3 sec
-setInterval(() => {
-  location.reload();
-}, 3000);
+<h3>Total: ₹${total}</h3>
 
-    </script>
-  `;
+<button
+class="done"
+onclick="markDone(${index})">
+Done
+</button>
 
-  res.send(html);
+</div>
+`;
+
+});
+
+html += `
+</div>
+
+<div class="column">
+
+<h2>✅ Completed Orders</h2>
+`;
+
+completedOrders.forEach(order => {
+
+let total = 0;
+
+let itemsHTML = order.items.map(item => {
+
+total += item.price * item.quantity;
+
+return `
+<div>
+${item.name} x${item.quantity}<br>
+₹${item.price * item.quantity}
+</div><br>
+`;
+
+}).join("");
+
+html += `
+
+<div class="order completed">
+
+<div class="tick">✅ Completed</div><br>
+
+<b>Name:</b> ${order.name || "No Name"}<br>
+<b>Mobile:</b> ${order.mobile || "No Mobile"}<br>
+<b>Table:</b> ${order.table}<br>
+<b>Time:</b> ${order.time}<br><br>
+
+${itemsHTML}
+
+<h3>Total: ₹${total}</h3>
+
+</div>
+`;
+
+});
+
+html += `
+
+</div>
+</div>
+
+<script>
+
+function markDone(index){
+
+fetch("/done/" + index,{
+method:"POST"
+})
+.then(()=>{
+location.reload();
+});
+
+}
+
+setInterval(()=>{
+location.reload();
+},3000);
+
+</script>
+
+</body>
+</html>
+`;
+
+res.send(html);
+
 });
 
 // ================= START =================
 
 app.listen(3000, () => {
+
   console.log("Server running on http://localhost:3000");
+
 });

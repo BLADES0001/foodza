@@ -1,8 +1,32 @@
-const customerMobile =
-  localStorage.getItem("customerMobile");
+function login(){
 
-if(!customerMobile){
-  window.location.href = "/login.html";
+  const name =
+    document.getElementById("name").value;
+
+  const mobile =
+    document.getElementById("mobile").value;
+
+  if(name.trim() === ""){
+    alert("Enter your name");
+    return;
+  }
+
+  if(mobile.length < 10){
+    alert("Enter valid mobile number");
+    return;
+  }
+
+  localStorage.setItem(
+    "customerName",
+    name
+  );
+
+  localStorage.setItem(
+    "customerMobile",
+    mobile
+  );
+
+  window.location.href = "/";
 }
 let foods = [];
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -133,7 +157,8 @@ function checkout() {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      mobile: localStorage.getItem("customerMobile"),
+  name: localStorage.getItem("customerName"),
+  mobile: localStorage.getItem("customerMobile"),
       table: tableNo,
       items: cart,
       time: new Date().toLocaleString()

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Foodza Login</title>
+
+  <style>
+    body{
+      font-family: Arial;
+      background:#111;
+      color:white;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+
+    .box{
+      background:#222;
+      padding:30px;
+      border-radius:10px;
+      width:300px;
+      text-align:center;
+    }
+
+    input{
+      width:100%;
+      padding:12px;
+      margin-top:15px;
+      border:none;
+      border-radius:5px;
+    }
+
+    button{
+      margin-top:20px;
+      width:100%;
+      padding:12px;
+      background:orange;
+      border:none;
+      font-size:18px;
+      border-radius:5px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h1>Foodza</h1>
+
+  <input
+    type="tel"
+    id="mobile"
+    placeholder="Enter Mobile Number"
+  >
+
+  <button onclick="login()">
+    Continue
+  </button>
+</div>
+
+<script>
+
+function login(){
+
+  const mobile =
+    document.getElementById("mobile").value;
+
+  if(mobile.length < 10){
+    alert("Enter valid mobile number");
+    return;
+  }
+
+  localStorage.setItem("customerMobile", mobile);
+
+  window.location.href = "/";
+}
+
+</script>
+
+</body>
+</html>

@@ -1,3 +1,9 @@
+const customerMobile =
+  localStorage.getItem("customerMobile");
+
+if(!customerMobile){
+  window.location.href = "/login.html";
+}
 let foods = [];
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
@@ -127,6 +133,7 @@ function checkout() {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
+      mobile: localStorage.getItem("customerMobile"),
       table: tableNo,
       items: cart,
       time: new Date().toLocaleString()
@@ -141,6 +148,13 @@ function checkout() {
 
     document.getElementById("tableNo").value = "";
   });
+}
+
+function logout(){
+
+  localStorage.removeItem("customerMobile");
+
+  window.location.href = "/login.html";
 }
 
 // SEARCH

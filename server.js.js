@@ -74,12 +74,34 @@ app.post("/add-item", (req, res) => {
 let orders = [];
 let completedOrders = [];
 
+// LOAD SAVED ORDERS
+
+if (fs.existsSync("orders.json")) {
+  orders = JSON.parse(fs.readFileSync("orders.json"));
+}
+
+if (fs.existsSync("completedOrders.json")) {
+  completedOrders = JSON.parse(
+    fs.readFileSync("completedOrders.json")
+  );
+}
+
 // receive order
 app.post("/order", (req, res) => {
 
-  orders.push(req.body);
+  const order = {
+    ...req.body,
+    createdAt: Date.now()
+  };
 
-  console.log("New Order:", req.body);
+  orders.push(order);
+
+  fs.writeFileSync(
+    "orders.json",
+    JSON.stringify(orders, null, 2)
+  );
+
+  console.log("New Order:", order);
 
   res.send("Order received");
 
@@ -92,9 +114,21 @@ app.post("/done/:id", (req, res) => {
 
   const completed = orders[index];
 
+  completed.completedAt = Date.now();
+
   completedOrders.push(completed);
 
   orders.splice(index, 1);
+
+  fs.writeFileSync(
+    "orders.json",
+    JSON.stringify(orders, null, 2)
+  );
+
+  fs.writeFileSync(
+    "completedOrders.json",
+    JSON.stringify(completedOrders, null, 2)
+  );
 
   res.send("Done");
 
@@ -419,7 +453,27 @@ location.reload();
 res.send(html);
 
 });
+// AUTO DELETE AFTER 48 HOURS
 
+setInterval(() => {
+
+  const now = Date.now();
+
+  completedOrders = completedOrders.filter(order => {
+
+    const hours48 =
+      48 * 60 * 60 * 1000;
+
+    return now - order.completedAt < hours48;
+
+  });
+
+  fs.writeFileSync(
+    "completedOrders.json",
+    JSON.stringify(completedOrders, null, 2)
+  );
+
+}, 60000);
 // ================= START =================
 
 app.listen(3000, () => {

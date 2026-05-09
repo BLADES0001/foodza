@@ -1,3 +1,11 @@
+ const customerMobile =
+localStorage.getItem("customerMobile");
+
+if(!customerMobile){
+
+  window.location.href = "/login.html";
+
+}
 function login(){
 
   const name =

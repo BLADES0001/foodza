@@ -11,11 +11,6 @@ app.use(express.json());
 // serve frontend
 app.use(express.static(path.join(__dirname, "public")));
 
-// homepage
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
-});
-
 // ================= MENU =================
 
 let menu = [];

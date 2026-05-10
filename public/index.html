@@ -2,40 +2,53 @@
 <html>
 <head>
   <title>Hotel Balaji Inn</title>
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="app">
+<!-- FIXED HEADER -->
+<div class="fixed-top">
 
-  <h1>Hotel Balaji Inn</h1>
+  <div class="logo-box">
+    <img src="/logo.png" class="logo">
 
-  <div class="top-bar">
-  <h1>Hotel Balaji Inn Menu</h1>
+    <h1>Hotel Balaji Inn</h1>
+  </div>
 
-  <input id="search" placeholder="Search food..." />
+  <input
+    id="search"
+    placeholder="Search food..."
+  >
+
 </div>
 
-<div id="food-list"></div>
+<!-- SCROLLABLE MENU -->
+<div id="menu-section">
 
+  <div id="food-list"></div>
+
+</div>
+
+<!-- FIXED CART -->
 <div class="cart">
-    <h2>🛒 Cart</h2>
-    <div id="cart"></div>
 
-<input 
-  type="text" 
-  id="tableNo" 
-  placeholder="Enter Table No"
->
-  </div>
+  <h2>🛒 Cart</h2>
+
+  <div id="cart"></div>
+
+  <input
+    type="text"
+    id="tableNo"
+    placeholder="Enter Table No"
+  >
 
 </div>
 
 <script src="script.js"></script>
-<button onclick="logout()">
-Logout
-</button>
+
 </body>
 </html>

@@ -1,66 +1,128 @@
 <!DOCTYPE html>
 <html>
 <head>
+
   <title>Hotel Balaji Inn Login</title>
 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
     body{
-      font-family: Arial;
+      font-family:Arial;
       background:#111;
-      color:white;
       display:flex;
       justify-content:center;
       align-items:center;
       height:100vh;
+      padding:20px;
     }
 
     .box{
+
       background:#222;
-      padding:30px;
-      border-radius:10px;
-      width:300px;
+      width:100%;
+      max-width:350px;
+
+      padding:30px 20px;
+
+      border-radius:20px;
+
       text-align:center;
+
+      box-shadow:0 0 20px rgba(0,0,0,0.5);
+
+    }
+
+    .logo{
+      width:90px;
+      margin-bottom:10px;
+    }
+
+    h1{
+      color:white;
+      margin-bottom:25px;
+      font-size:28px;
     }
 
     input{
+
       width:100%;
-      padding:12px;
+
+      padding:14px;
+
       margin-top:15px;
+
       border:none;
-      border-radius:5px;
+
+      border-radius:10px;
+
+      font-size:16px;
+
     }
 
     button{
-      margin-top:20px;
+
       width:100%;
-      padding:12px;
-      background:orange;
+
+      padding:14px;
+
+      margin-top:20px;
+
       border:none;
+
+      border-radius:10px;
+
+      background:orange;
+
+      color:black;
+
       font-size:18px;
-      border-radius:5px;
+
+      font-weight:bold;
+
       cursor:pointer;
+
     }
+
+    button:hover{
+      opacity:0.9;
+    }
+
   </style>
+
 </head>
+
 <body>
 
 <div class="box">
+
+  <img src="/logo.png" class="logo">
+
   <h1>Hotel Balaji Inn</h1>
-<input
-  type="text"
-  id="name"
-  placeholder="Enter Your Name"
->
 
-<input
-  type="tel"
-  id="mobile"
-  placeholder="Enter Mobile Number"
->
+  <input
+    type="text"
+    id="name"
+    placeholder="Enter Your Name"
+  >
 
-<button onclick="login()">
-  Continue
-</button>
+  <input
+    type="tel"
+    id="mobile"
+    placeholder="Enter Mobile Number"
+  >
+
+  <button onclick="login()">
+    Continue
+  </button>
+
 </div>
 
 <script>
@@ -73,15 +135,22 @@ function login(){
   const mobile =
   document.getElementById("mobile").value;
 
+  if(name.trim() == ""){
+    alert("Enter your name");
+    return;
+  }
+
   if(mobile.length < 10){
     alert("Enter valid mobile number");
     return;
   }
 
-  localStorage.setItem("customerMobile", mobile);
   localStorage.setItem("customerName", name);
 
+  localStorage.setItem("customerMobile", mobile);
+
   window.location.href = "/";
+
 }
 
 </script>

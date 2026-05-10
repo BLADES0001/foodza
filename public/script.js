@@ -268,7 +268,8 @@ function checkout(){
 
     headers:{
       "Content-Type":"application/json"
-    },
+
+  },
 
     body:JSON.stringify({
 
@@ -350,51 +351,6 @@ search.addEventListener("input", function(){
 });
 
 
-// CATEGORY FILTERS
-
-document
-.querySelectorAll(".cat")
-
-.forEach(btn => {
-
-  btn.addEventListener("click", () => {
-
-    document
-
-    .querySelectorAll(".cat")
-
-    .forEach(c =>
-      c.classList.remove("active")
-    );
-
-    btn.classList.add("active");
-
-    const text =
-    btn.innerText.toLowerCase();
-
-    if(text === "all"){
-
-      displayFoods(foods);
-
-      return;
-
-    }
-
-    const filtered =
-    foods.filter(food =>
-
-      food.name
-      .toLowerCase()
-      .includes(text)
-
-    );
-
-    displayFoods(filtered);
-
-  });
-
-});
-
 
 // TOGGLE CART
 
@@ -445,6 +401,40 @@ function logout(){
   window.location.href =
   "/login.html";
 
+}
+
+function filterCategory(category) {
+
+  // active button
+  document
+  .querySelectorAll(".cat")
+  .forEach(btn => {
+    btn.classList.remove("active");
+  });
+
+  // highlight clicked button
+  const activeBtn =
+  Array.from(document.querySelectorAll(".cat"))
+  .find(btn => btn.innerText.trim() === category);
+
+  if(activeBtn){
+    activeBtn.classList.add("active");
+  }
+
+  // show all
+  if(category === "All"){
+    displayFoods(foods);
+    return;
+  }
+
+  // filter category
+  const filtered =
+  foods.filter(food =>
+    food.category &&
+    food.category.trim() === category
+  );
+
+  displayFoods(filtered);
 }
 
 

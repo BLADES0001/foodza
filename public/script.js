@@ -1,4 +1,4 @@
- const customerMobile =
+const customerMobile =
 localStorage.getItem("customerMobile");
 
 if(!customerMobile){
@@ -6,209 +6,340 @@ if(!customerMobile){
   window.location.href = "/login.html";
 
 }
-function login(){
 
-  const name =
-    document.getElementById("name").value;
-
-  const mobile =
-    document.getElementById("mobile").value;
-
-  if(name.trim() === ""){
-    alert("Enter your name");
-    return;
-  }
-
-  if(mobile.length < 10){
-    alert("Enter valid mobile number");
-    return;
-  }
-
-  localStorage.setItem(
-    "customerName",
-    name
-  );
-
-  localStorage.setItem(
-    "customerMobile",
-    mobile
-  );
-
-  window.location.href = "/";
-}
 let foods = [];
-let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
-const foodList = document.getElementById("food-list");
-const cartDiv = document.getElementById("cart");
-const search = document.getElementById("search");
+let cart =
+JSON.parse(localStorage.getItem("cart")) || [];
+
+const foodList =
+document.getElementById("food-list");
+
+const cartDiv =
+document.getElementById("cart");
+
+const search =
+document.getElementById("search");
+
 
 // LOAD MENU
-function loadFoods() {
+
+function loadFoods(){
+
   fetch("/menu")
-    .then(res => res.json())
-    .then(data => {
-      foods = data;
-      displayFoods(foods);
-    });
+
+  .then(res => res.json())
+
+  .then(data => {
+
+    foods = data;
+
+    displayFoods(foods);
+
+  });
+
 }
 
+
 // DISPLAY FOOD
-function displayFoods(items) {
+
+function displayFoods(items){
+
   foodList.innerHTML = "";
 
   items.forEach(food => {
+
     foodList.innerHTML += `
-      <div class="food-item">
-        <div>
-          <strong>${food.name}</strong><br>
-          No. ${food.id}<br>
 
-          <input 
-            type="text" 
-            placeholder="Customisation"
-            id="custom-${food.id}"
+    <div class="food-item">
+
+      <div class="food-left">
+
+        <div class="food-icon">
+          🍽️
+        </div>
+
+        <div class="food-details">
+
+          <strong>${food.name}</strong>
+
+          <div class="food-no">
+            No. ${food.id}
+          </div>
+
+          <div class="food-price">
+            ${food.price ? "₹" + food.price : "APS"}
+          </div>
+
+          <input
+          type="text"
+          placeholder="Customisation"
+          id="custom-${food.id}"
           >
+
         </div>
 
-        <div>
-          ${food.price ? "₹" + food.price : "APS"}
-          <button onclick="addToCart(${food.id})">+</button>
-        </div>
       </div>
+
+      <button onclick="addToCart(${food.id})">
+        +
+      </button>
+
+    </div>
+
     `;
+
   });
+
 }
 
+
 // ADD TO CART
-function addToCart(id) {
-  const item = foods.find(f => f.id === id);
-  const custom = document.getElementById(`custom-${id}`).value;
 
-  const existing = cart.find(c => c.id === id && c.custom === custom);
+function addToCart(id){
 
-  if (existing) {
+  const item =
+  foods.find(f => f.id === id);
+
+  const custom =
+  document.getElementById(`custom-${id}`).value;
+
+  const existing =
+  cart.find(c =>
+    c.id === id &&
+    c.custom === custom
+  );
+
+  if(existing){
+
     existing.quantity++;
-  } else {
+
+  }else{
+
     cart.push({
+
       ...item,
-      quantity: 1,
+
+      quantity:1,
+
       custom
+
     });
+
   }
 
   saveCart();
+
   displayCart();
+
 }
 
-// REMOVE
-function removeFromCart(id) {
-  const item = cart.find(c => c.id === id);
 
-  if (item.quantity > 1) item.quantity--;
-  else cart = cart.filter(c => c.id !== id);
+// REMOVE ITEM
+
+function removeFromCart(id){
+
+  const item =
+  cart.find(c => c.id === id);
+
+  if(item.quantity > 1){
+
+    item.quantity--;
+
+  }else{
+
+    cart =
+    cart.filter(c => c.id !== id);
+
+  }
 
   saveCart();
+
   displayCart();
+
 }
 
-// SAVE
-function saveCart() {
-  localStorage.setItem("cart", JSON.stringify(cart));
+
+// SAVE CART
+
+function saveCart(){
+
+  localStorage.setItem(
+    "cart",
+    JSON.stringify(cart)
+  );
+
 }
+
 
 // DISPLAY CART
-function displayCart() {
+
+function displayCart(){
+
   cartDiv.innerHTML = "";
 
-  if (cart.length === 0) {
-    cartDiv.innerHTML = "Cart is empty";
+  if(cart.length === 0){
+
+    cartDiv.innerHTML =
+    "Cart is empty";
+
+    document
+    .getElementById("cart-count")
+    .innerText = 0;
+
     return;
+
   }
 
   let total = 0;
 
   cart.forEach(item => {
+
     if(item.price){
-  total += item.price * item.quantity;
-}
+
+      total +=
+      item.price * item.quantity;
+
+    }
 
     cartDiv.innerHTML += `
+
+    <div class="cart-item">
+
       <div>
+
         ${item.name} (x${item.quantity})<br>
-        <small>${item.custom || ""}</small><br>
-        ${item.price ? "₹" + (item.price * item.quantity) : "APS"}
-        <button onclick="removeFromCart(${item.id})">-</button>
+
+        <small>
+        ${item.custom || ""}
+        </small><br>
+
+        ${item.price
+          ? "₹" + (item.price * item.quantity)
+          : "APS"}
+
       </div>
+
+      <button onclick="removeFromCart(${item.id})">
+        -
+      </button>
+
+    </div>
+
     `;
+
   });
 
   cartDiv.innerHTML += `
-    <h3>Total: ₹${total}</h3>
-    <button onclick="checkout()">Checkout</button>
+
+  <div class="cart-total">
+
+    Total: ₹${total}
+
+  </div>
+
   `;
+
+  document
+  .getElementById("cart-count")
+  .innerText = cart.length;
+
 }
 
+
 // CHECKOUT
-function checkout() {
 
-  const tableNo = document.getElementById("tableNo").value;
+function checkout(){
 
-  if (!tableNo) {
+  const tableNo =
+  document.getElementById("tableNo").value;
+
+  if(!tableNo){
+
     alert("Please enter table number");
+
     return;
+
   }
 
   fetch("/order", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
+
+    method:"POST",
+
+    headers:{
+      "Content-Type":"application/json"
     },
-    body: JSON.stringify({
-  name: localStorage.getItem("customerName"),
-  mobile: localStorage.getItem("customerMobile"),
-      table: tableNo,
-      items: cart,
-      time: new Date().toLocaleString()
+
+    body:JSON.stringify({
+
+      name:
+      localStorage.getItem("customerName"),
+
+      mobile:
+      localStorage.getItem("customerMobile"),
+
+      table:tableNo,
+
+      items:cart,
+
+      time:new Date().toLocaleString()
+
     })
+
   })
+
   .then(() => {
+
     alert("Order placed!");
 
     cart = [];
+
     saveCart();
+
     displayCart();
 
-    document.getElementById("tableNo").value = "";
+    document
+    .getElementById("tableNo")
+    .value = "";
+
+    toggleCart();
+
   });
+
 }
 
-function logout(){
-
-  localStorage.removeItem("customerMobile");
-
-  window.location.href = "/login.html";
-}
 
 // SEARCH
-search.addEventListener("input", function () {
 
-  const text = search.value.toLowerCase().trim();
+search.addEventListener("input", function(){
 
-  const filteredFoods = foods.filter(food => {
+  const text =
+  search.value
+  .toLowerCase()
+  .trim();
 
-    const fullName = food.name.toLowerCase();
+  const filteredFoods =
+  foods.filter(food => {
 
-    // normal search
-    if (fullName.includes(text)) {
+    const fullName =
+    food.name.toLowerCase();
+
+    if(fullName.includes(text)){
+
       return true;
+
     }
 
-    // initials search
-    const initials = food.name
-      .split(" ")
-      .map(word => word[0].toLowerCase())
-      .join("");
+    const initials =
+    food.name
+
+    .split(" ")
+
+    .map(word =>
+      word[0].toLowerCase()
+    )
+
+    .join("");
 
     return initials.includes(text);
 
@@ -218,5 +349,107 @@ search.addEventListener("input", function () {
 
 });
 
+
+// CATEGORY FILTERS
+
+document
+.querySelectorAll(".cat")
+
+.forEach(btn => {
+
+  btn.addEventListener("click", () => {
+
+    document
+
+    .querySelectorAll(".cat")
+
+    .forEach(c =>
+      c.classList.remove("active")
+    );
+
+    btn.classList.add("active");
+
+    const text =
+    btn.innerText.toLowerCase();
+
+    if(text === "all"){
+
+      displayFoods(foods);
+
+      return;
+
+    }
+
+    const filtered =
+    foods.filter(food =>
+
+      food.name
+      .toLowerCase()
+      .includes(text)
+
+    );
+
+    displayFoods(filtered);
+
+  });
+
+});
+
+
+// TOGGLE CART
+
+function toggleCart(){
+
+  document
+
+  .getElementById("cartBox")
+
+  .classList
+
+  .toggle("show-cart");
+
+}
+
+function clearCart(){
+
+  cart = [];
+
+  saveCart();
+
+  displayCart();
+
+}
+
+
+// CLEAR CART
+
+function clearCart(){
+
+  cart = [];
+
+  saveCart();
+
+  displayCart();
+
+}
+
+
+// LOGOUT
+
+function logout(){
+
+  localStorage.removeItem("customerMobile");
+
+  localStorage.removeItem("customerName");
+
+  window.location.href =
+  "/login.html";
+
+}
+
+
+// START
+
 loadFoods();
+
 displayCart();

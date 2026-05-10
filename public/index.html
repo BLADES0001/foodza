@@ -1,63 +1,122 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
   <title>Hotel Balaji Inn</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
-  <script>
 
-if(
-  !localStorage.getItem("customerMobile")
-){
-  window.location.replace("/login.html");
-}
+<div class="app">
 
-</script>
+  <div class="fixed-top">
 
-<!-- FIXED HEADER -->
-<div class="fixed-top">
+    <div class="top-icons">
 
-  <div class="logo-box">
-    <img src="/logo.png" class="logo">
+      <div class="menu-btn">☰</div>
 
-    <h1>Hotel Balaji Inn</h1>
+      <div class="profile-btn">👤</div>
+
+    </div>
+
+    <div class="logo-box">
+
+      <img src="/logo.png" class="logo">
+
+      <h1>Hotel Balaji Inn</h1>
+
+      <div class="tagline">
+        Great Food, Great Experience
+      </div>
+
+    </div>
+
+    <div class="search-box">
+
+      <span>🔍</span>
+
+      <input
+      id="search"
+      placeholder="Search food..."
+      >
+
+    </div>
+
+    <div class="categories">
+
+      <div class="cat active">All</div>
+
+      <div class="cat">Papad</div>
+
+      <div class="cat">Starters</div>
+
+      <div class="cat">Main Course</div>
+
+      <div class="cat">Beverages</div>
+
+    </div>
+
   </div>
 
-  <input
-    id="search"
-    placeholder="Search food..."
-  >
+  <div id="menu-section">
 
+    <div id="food-list"></div>
+
+  </div>
+
+  <!-- FLOATING CART BUTTON -->
+
+  <div class="cart-toggle" onclick="toggleCart()">
+    🛒 Cart (<span id="cart-count">0</span>)
+  </div>
+
+  <!-- CART POPUP -->
+
+  <div class="cart" id="cartBox">
+
+    <div class="cart-top">
+
+      <div class="cart-title">
+        🛒 Your Cart
+      </div>
+
+      <div class="clear-cart" onclick="clearCart()">
+  Clear
 </div>
 
-<!-- SCROLLABLE MENU -->
-<div id="menu-section">
+    </div>
 
-  <div id="food-list"></div>
+    <div id="cart"></div>
 
-</div>
+    <div class="bottom-row">
 
-<!-- FIXED CART -->
-<div class="cart">
+      <input
+      type="text"
+      id="tableNo"
+      placeholder="Enter Table No"
+      >
 
-  <h2>🛒 Cart</h2>
+      <button
+      class="checkout-btn"
+      onclick="checkout()"
+      >
+      Checkout →
+      </button>
 
-  <div id="cart"></div>
+    </div>
 
-  <input
-    type="text"
-    id="tableNo"
-    placeholder="Enter Table No"
-  >
+  </div>
 
 </div>
 
 <script src="script.js"></script>
 
 </body>
+
 </html>

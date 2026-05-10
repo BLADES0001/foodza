@@ -134,7 +134,7 @@ app.post("/done/:id", (req, res) => {
 app.get("/admin", (req, res) => {
 
   let html = `
-    <h1>Admin Panel</h1>
+    <h1>Hotel Balaji Inn</h1>
 
     <input id="search" placeholder="Search food">
     <br><br>
@@ -321,7 +321,7 @@ h1{
 
 <body>
 
-<h1>🍔 Foodza Orders</h1>
+<h1>Hotel Balaji Inn</h1>
 
 <div class="container">
 

@@ -127,6 +127,8 @@
 
 <script>
 
+localStorage.removeItem("cart");
+
 function login(){
 
   const name =
@@ -145,9 +147,18 @@ function login(){
     return;
   }
 
-  localStorage.setItem("customerName", name);
+  // CLEAR OLD CART
+  localStorage.removeItem("cart");
 
-  localStorage.setItem("customerMobile", mobile);
+  localStorage.setItem(
+    "customerName",
+    name
+  );
+
+  localStorage.setItem(
+    "customerMobile",
+    mobile
+  );
 
   window.location.href = "/";
 

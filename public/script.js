@@ -617,19 +617,18 @@ function toggleSideMenu(){
 
 // MY ORDERS
 
-function showOrders(){
+async function showOrders(){
+
+  const mobile =
+  localStorage.getItem("customerMobile");
+
+  const res =
+  await fetch("/customer-orders/" + mobile);
 
   const orders =
-  JSON.parse(
-    localStorage.getItem("customerOrders")
-  ) || [];
+  await res.json();
 
-  // ONLY CURRENT ORDERS
-
-  const currentOrders =
-  orders.filter(order => !order.done);
-
-  if(currentOrders.length === 0){
+  if(orders.length === 0){
 
     alert("No current orders");
 
@@ -639,7 +638,7 @@ function showOrders(){
 
   let text = "";
 
-  currentOrders.forEach((order,index) => {
+  orders.forEach((order,index) => {
 
     text +=
     `🍽️ Order ${index + 1}\n\n`;
@@ -658,7 +657,7 @@ function showOrders(){
     `📞 For more queries call:\n`;
 
     text +=
-    `+91 8439205617\n\n`;
+    `+91 9663729867\n\n`;
 
     text +=
     `━━━━━━━━━━━━━━\n\n`;

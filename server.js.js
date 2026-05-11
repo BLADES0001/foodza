@@ -85,9 +85,16 @@ if (fs.existsSync("completedOrders.json")) {
 app.post("/order", (req, res) => {
 
   const order = {
-    ...req.body,
-    createdAt: Date.now()
-  };
+
+  id: Date.now(),
+
+  ...req.body,
+
+  done:false,
+
+  createdAt: Date.now()
+
+};
 
   orders.push(order);
 
@@ -111,6 +118,8 @@ app.post("/done/:id", (req, res) => {
 
   completed.completedAt = Date.now();
 
+  completed.done = true;
+
   completedOrders.push(completed);
 
   orders.splice(index, 1);
@@ -125,7 +134,24 @@ app.post("/done/:id", (req, res) => {
     JSON.stringify(completedOrders, null, 2)
   );
 
-  res.send("Done");
+  res.json(completed);
+
+});
+
+// CUSTOMER ACTIVE ORDERS
+
+app.get("/customer-orders/:mobile", (req, res) => {
+
+  const mobile = req.params.mobile;
+
+  const customerOrders = orders.filter(order =>
+
+    order.mobile === mobile &&
+    !order.done
+
+  );
+
+  res.json(customerOrders);
 
 });
 

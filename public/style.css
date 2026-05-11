@@ -18,7 +18,7 @@ body{
   height:100vh;
   position:relative;
   background:#f5f3ef;
-  overflow:hidden;
+  overflow-x:hidden;
   margin:auto;
 }
 
@@ -402,41 +402,6 @@ display:block;
 padding:15px;
 
 cursor:pointer;
-}
-
-/* SIDE MENU BIGGER */
-
-#sideMenu{
-
-  width:320px !important;
-
-  left:-340px !important;
-
-  padding:25px !important;
-
-  height:calc(100vh - 120px) !important;
-}
-
-#sideMenu{
-  overflow-y:auto;
-}
-
-
-/* CART ABOVE MENU */
-
-.cart-btn{
-
-  bottom:25px !important;
-
-  z-index:999999 !important;
-
-}
-
-
-/* SIDE MENU BELOW CART */
-
-#sideMenu{
-  z-index:500 !important;
 }
 
 

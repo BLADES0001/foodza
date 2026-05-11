@@ -604,7 +604,7 @@ function toggleSideMenu(){
 
   if(menu.style.left === "0px"){
 
-    menu.style.left = "-280px";
+    menu.style.left = "-340px";
 
   }else{
 

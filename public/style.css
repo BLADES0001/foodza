@@ -203,7 +203,7 @@ padding:16px;
 
 .food-item button{
   width:70px;
-  height:70px;
+  height:50px;
   border:none;
   border-radius:20px;
   background:#d39b1a;
@@ -378,31 +378,18 @@ overflow-y:auto;
 }
 
 .cart-toggle{
-
 position:fixed;
-
 bottom:20px;
-
 left:50%;
-
 transform:translateX(-50%);
-
 background:#d39b1a;
-
 color:white;
-
 padding:16px 24px;
-
 border-radius:40px;
-
 font-weight:bold;
-
 font-size:18px;
-
-z-index:1000;
-
+z-index:999999;
 cursor:pointer;
-
 box-shadow:0 4px 15px rgba(0,0,0,0.2);
 }
 
@@ -415,4 +402,66 @@ display:block;
 padding:15px;
 
 cursor:pointer;
+}
+
+/* SIDE MENU BIGGER */
+
+#sideMenu{
+
+  width:320px !important;
+
+  left:-340px !important;
+
+  padding:25px !important;
+
+  height:calc(100vh - 120px) !important;
+}
+
+#sideMenu{
+  overflow-y:auto;
+}
+
+
+/* CART ABOVE MENU */
+
+.cart-btn{
+
+  bottom:25px !important;
+
+  z-index:999999 !important;
+
+}
+
+
+/* SIDE MENU BELOW CART */
+
+#sideMenu{
+  z-index:500 !important;
+}
+
+
+/* MOBILE IMPROVEMENT */
+
+@media(max-width:768px){
+
+  #sideMenu{
+
+    width:78% !important;
+
+    left:-85% !important;
+
+  }
+
+}
+
+#menu-section{
+height: 560px !important;
+overflow-y: auto !important;
+padding-bottom: 140px !important;
+}
+
+#food-list{
+display:flex;
+flex-direction:column;
+gap:20px;
 }

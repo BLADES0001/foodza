@@ -355,6 +355,11 @@ html += `
 <b>Name:</b> ${order.name || "No Name"}<br>
 <b>Mobile:</b> ${order.mobile || "No Mobile"}<br>
 <b>Table:</b> ${order.table}<br>
+${order.location
+? `<a href="${order.location.mapsLink}" target="_blank">
+📍 Open Location
+</a>`
+: ""}
 <b>Time:</b> ${order.time}<br><br>
 
 ${itemsHTML}

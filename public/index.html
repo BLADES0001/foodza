@@ -146,22 +146,43 @@
 
     <div id="cart"></div>
 
-    <div class="bottom-row">
+    <div class="bottom-row" style="display:flex;flex-direction:column;gap:10px;">
 
-      <input
-      type="text"
-      id="tableNo"
-      placeholder="Enter Table No"
-      >
+  <!-- ORDER TYPE -->
 
-      <button
-      class="checkout-btn"
-      onclick="checkout()"
-      >
-      Checkout →
-      </button>
+  <select id="orderType" onchange="toggleOrderType()">
+    <option value="dinein">Dine In</option>
+    <option value="delivery">Delivery</option>
+  </select>
 
-    </div>
+  <!-- TABLE NUMBER -->
+
+  <input
+    type="text"
+    id="tableNo"
+    placeholder="Enter Table No"
+  >
+
+  <!-- DELIVERY LOCATION -->
+
+  <div id="deliveryBox" style="display:none;">
+
+    <button onclick="getLiveLocation()">
+      📍 Share Live Location
+    </button>
+
+    <div id="locationStatus"></div>
+
+  </div>
+
+  <button
+    class="checkout-btn"
+    onclick="checkout()"
+  >
+    Checkout →
+  </button>
+
+</div>
 
   </div>
 

@@ -248,15 +248,29 @@ function displayCart(){
 
 
 // CHECKOUT
-
 function checkout(){
+
+  const orderType =
+  document.getElementById("orderType").value;
 
   const tableNo =
   document.getElementById("tableNo").value;
 
-  if(!tableNo){
+  // DINE IN CHECK
+
+  if(orderType === "dinein" && !tableNo){
 
     alert("Please enter table number");
+
+    return;
+
+  }
+
+  // DELIVERY CHECK
+
+  if(orderType === "delivery" && !customerLocation){
+
+    alert("Please share delivery location");
 
     return;
 
@@ -268,8 +282,7 @@ function checkout(){
 
     headers:{
       "Content-Type":"application/json"
-
-  },
+    },
 
     body:JSON.stringify({
 
@@ -279,7 +292,17 @@ function checkout(){
       mobile:
       localStorage.getItem("customerMobile"),
 
-      table:tableNo,
+      orderType:orderType,
+
+      table:
+      orderType === "dinein"
+      ? tableNo
+      : null,
+
+      location:
+      orderType === "delivery"
+      ? customerLocation
+      : null,
 
       items:cart,
 
@@ -299,9 +322,15 @@ function checkout(){
 
     displayCart();
 
-    document
-    .getElementById("tableNo")
-    .value = "";
+    document.getElementById(
+      "tableNo"
+    ).value = "";
+
+    document.getElementById(
+      "locationStatus"
+    ).innerHTML = "";
+
+    customerLocation = null;
 
     toggleCart();
 
@@ -437,6 +466,88 @@ function filterCategory(category) {
   displayFoods(filtered);
 }
 
+let customerLocation = null;
+
+
+// TOGGLE DINE IN / DELIVERY
+
+function toggleOrderType(){
+
+  const type =
+  document.getElementById("orderType").value;
+
+  const deliveryBox =
+  document.getElementById("deliveryBox");
+
+  const tableNo =
+  document.getElementById("tableNo");
+
+  if(type === "delivery"){
+
+    deliveryBox.style.display = "block";
+
+    tableNo.style.display = "none";
+
+  }else{
+
+    deliveryBox.style.display = "none";
+
+    tableNo.style.display = "block";
+
+  }
+
+}
+
+
+// GET LIVE LOCATION
+
+function getLiveLocation(){
+
+  if(!navigator.geolocation){
+
+    alert("Geolocation not supported");
+
+    return;
+
+  }
+
+  navigator.geolocation.getCurrentPosition(
+
+    position => {
+
+      const lat =
+      position.coords.latitude;
+
+      const lng =
+      position.coords.longitude;
+
+      customerLocation = {
+
+        latitude: lat,
+
+        longitude: lng,
+
+        mapsLink:
+        `https://www.google.com/maps?q=${lat},${lng}`
+
+      };
+
+      document.getElementById(
+        "locationStatus"
+      ).innerHTML =
+      "✅ Location Shared";
+
+    },
+
+    () => {
+
+      alert("Location access denied");
+
+    }
+
+  );
+
+}
 
 // START
 

@@ -315,6 +315,25 @@ function checkout(){
   .then(() => {
 
     alert("Order placed!");
+    const oldOrders =
+JSON.parse(
+  localStorage.getItem("customerOrders")
+) || [];
+
+oldOrders.push({
+
+  items: cart,
+
+  time: new Date().toLocaleString(),
+
+  done:false
+
+});
+
+localStorage.setItem(
+  "customerOrders",
+  JSON.stringify(oldOrders)
+);
 
     cart = [];
 
@@ -546,6 +565,107 @@ function getLiveLocation(){
     }
 
   );
+
+}
+
+function toggleProfilePopup(){
+
+  const popup =
+  document.getElementById("profilePopup");
+
+  if(
+    popup.style.display === "block"
+  ){
+
+    popup.style.display = "none";
+
+  }else{
+
+    document.getElementById(
+      "profileName"
+    ).innerText =
+    localStorage.getItem("customerName");
+
+    document.getElementById(
+      "profileMobile"
+    ).innerText =
+    localStorage.getItem("customerMobile");
+
+    popup.style.display = "block";
+
+  }
+
+}
+
+function toggleSideMenu(){
+
+  const menu =
+  document.getElementById("sideMenu");
+
+  if(menu.style.left === "0px"){
+
+    menu.style.left = "-280px";
+
+  }else{
+
+    menu.style.left = "0px";
+
+  }
+
+}
+
+
+// MY ORDERS
+
+function showOrders(){
+
+  const orders =
+  JSON.parse(
+    localStorage.getItem("customerOrders")
+  ) || [];
+
+  // ONLY CURRENT ORDERS
+
+  const currentOrders =
+  orders.filter(order => !order.done);
+
+  if(currentOrders.length === 0){
+
+    alert("No current orders");
+
+    return;
+
+  }
+
+  let text = "";
+
+  currentOrders.forEach((order,index) => {
+
+    text +=
+    `🍽️ Order ${index + 1}\n\n`;
+
+    order.items.forEach(item => {
+
+      text +=
+      `${item.name} x${item.quantity}\n`;
+
+    });
+
+    text +=
+    `\n🚚 Your food is on the way.\n`;
+
+    text +=
+    `📞 For more queries call:\n`;
+
+    text +=
+    `+91 8439205617\n\n`;
+
+    text +=
+    `━━━━━━━━━━━━━━\n\n`;
+
+  });
+
+  alert(text);
 
 }
 

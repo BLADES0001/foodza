@@ -19,9 +19,143 @@
 
     <div class="top-icons">
 
-      <div class="menu-btn">☰</div>
+      <div class="menu-btn" onclick="toggleSideMenu()">
+☰
+</div>
 
-      <div class="profile-btn">👤</div>
+<div id="sideMenu" style="
+position:fixed;
+top:0;
+left:-280px;
+width:260px;
+height:100%;
+background:white;
+box-shadow:4px 0 20px rgba(0,0,0,0.15);
+z-index:99999;
+padding:25px;
+transition:0.3s;
+overflow-y:auto;
+">
+
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+">
+
+<h2 style="margin:0;">
+Hotel Balaji Inn
+</h2>
+
+<div
+onclick="toggleSideMenu()"
+style="
+font-size:28px;
+cursor:pointer;
+"
+>
+×
+</div>
+
+</div>
+
+<div
+onclick="showOrders()"
+style="
+padding:15px;
+border-radius:12px;
+background:#f5f5f5;
+margin-bottom:15px;
+font-weight:bold;
+cursor:pointer;
+"
+>
+📦 My Orders
+</div>
+
+<div style="
+padding:15px;
+border-radius:12px;
+background:#f5f5f5;
+line-height:1.8;
+">
+
+<h3 style="margin-top:0;">
+📞 Contact Us
+</h3>
+
+<div>
++91 8439205617
+</div>
+
+<div>
++91 9174528604
+</div>
+
+<div>
++91 7826401953
+</div>
+
+<p style="
+margin-top:15px;
+font-size:14px;
+color:#666;
+">
+
+Thank you for choosing Hotel Balaji Inn.
+
+We are committed to serving delicious food with the best dining experience.
+
+For delivery assistance, reservations, or feedback, feel free to contact us anytime.
+
+</p>
+
+</div>
+
+</div>
+
+      <div class="profile-btn" onclick="toggleProfilePopup()">
+  👤
+</div>
+
+<div id="profilePopup" style="
+display:none;
+position:absolute;
+top:60px;
+right:15px;
+background:white;
+padding:15px;
+border-radius:15px;
+box-shadow:0 4px 20px rgba(0,0,0,0.15);
+z-index:9999;
+min-width:220px;
+">
+
+  <div style="font-weight:bold;font-size:18px;">
+    <span id="profileName"></span>
+  </div>
+
+  <div style="margin-top:6px;color:gray;">
+    <span id="profileMobile"></span>
+  </div>
+
+  <button
+  onclick="logout()"
+  style="
+  margin-top:12px;
+  width:100%;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  background:#d39b1a;
+  color:white;
+  font-weight:bold;
+  ">
+    Logout
+  </button>
+
+</div>
 
     </div>
 

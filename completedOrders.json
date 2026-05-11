@@ -1,22 +1,5 @@
 [
   {
-    "name": "Pranav",
-    "mobile": "9880520082",
-    "table": "76",
-    "items": [
-      {
-        "id": 1,
-        "name": "Balaji Camel (Blue Lagoon)",
-        "price": 160,
-        "quantity": 2,
-        "custom": ""
-      }
-    ],
-    "time": "5/9/2026, 12:09:10 PM",
-    "createdAt": 1778308750278,
-    "completedAt": 1778308767632
-  },
-  {
     "name": "Pranavdg",
     "mobile": "9880520082",
     "table": "67",
@@ -66,5 +49,25 @@
     "time": "5/10/2026, 1:30:16 PM",
     "createdAt": 1778400016385,
     "completedAt": 1778400040288
+  },
+  {
+    "name": "Pranavdg",
+    "mobile": "9880520082",
+    "orderType": "dinein",
+    "table": "45",
+    "location": null,
+    "items": [
+      {
+        "id": 1,
+        "name": "Balaji Camel (Blue Lagoon)",
+        "price": 160,
+        "category": "Mocktails",
+        "quantity": 2,
+        "custom": ""
+      }
+    ],
+    "time": "5/11/2026, 4:22:18 PM",
+    "createdAt": 1778496738045,
+    "completedAt": 1778496779984
   }
 ]
